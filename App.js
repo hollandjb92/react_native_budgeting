@@ -15,7 +15,7 @@ const Tabs = createBottomTabNavigator();
 const ExpenseOverview = () => {
   return (
     <Tabs.Navigator
-      screenOptions={{
+      screenOptions={({ navigation }) => ({
         headerStyle: {
           backgroundColor: GlobalStyles.colors.primary500,
         },
@@ -24,7 +24,9 @@ const ExpenseOverview = () => {
             icon="add"
             size={24}
             color={tintColor}
-            onPress={() => {}}
+            onPress={() => {
+              navigation.navigate("Manage");
+            }}
           />
         ),
         headerTintColor: GlobalStyles.colors.white,
@@ -32,7 +34,7 @@ const ExpenseOverview = () => {
           backgroundColor: GlobalStyles.colors.primary500,
         },
         tabBarActiveTintColor: GlobalStyles.colors.accent500,
-      }}
+      })}
     >
       <Tabs.Screen
         name="Recent Expenses"
