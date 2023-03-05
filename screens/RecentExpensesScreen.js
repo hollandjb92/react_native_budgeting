@@ -10,10 +10,16 @@ const RecentExpensesScreen = () => {
     const today = new Date();
     const date7DaysPrior = getDateMinusDays(today, 7);
 
-    return expense.date > date7DaysPrior;
+    return expense.date >= date7DaysPrior && expense.date <= today;
   });
 
-  return <Expenses expenses={recentExpenses} timePeriod="Last 7 Days" />;
+  return (
+    <Expenses
+      expenses={recentExpenses}
+      timePeriod="Last 7 Days"
+      defaultText="No expenses in the last 7 days"
+    />
+  );
 };
 
 export default RecentExpensesScreen;
