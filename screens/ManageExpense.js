@@ -14,11 +14,17 @@ const ManageExpenseScreen = ({ route, navigation }) => {
     });
   }, [navigation, isEditing]);
 
-  const handleDelete = () => {};
+  const handleDelete = () => {
+    navigation.goBack();
+  };
 
-  const handleCancel = () => {};
+  const handleCancel = () => {
+    navigation.goBack();
+  };
 
-  const handleConfirmation = () => {};
+  const handleConfirmation = () => {
+    navigation.goBack();
+  };
 
   return (
     <View style={styles.container}>
