@@ -43,7 +43,7 @@ const DUMMY_EXPENSES = [
 const expensesReducer = (state, action) => {
   switch (action.type) {
     case "ADD":
-      const id = new Date.toString() + Math.random().toString();
+      const id = Math.random().toString() + Math.random().toString();
       return [{ ...action.payload, id }, ...state];
     case "UPDATE":
       const expenseToUpdateIndex = state.findIndex(
