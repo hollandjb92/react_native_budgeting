@@ -4,6 +4,7 @@ import Button from "../components/Button";
 import IconButton from "../components/IconButton";
 import { GlobalStyles } from "./../styles";
 import { ExpensesContext } from "./../store/expensesContext";
+import ExpenseForm from "../components/ExpenseForm";
 
 const ManageExpenseScreen = ({ route, navigation }) => {
   const expenseIdToEdit = route.params?.expenseId;
@@ -13,7 +14,7 @@ const ManageExpenseScreen = ({ route, navigation }) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: isEditing ? "Edit Expense" : "Add Expense",
+      title: "Manage Expense",
     });
   }, [navigation, isEditing]);
 
@@ -45,6 +46,7 @@ const ManageExpenseScreen = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
+      <ExpenseForm isEditing={isEditing} />
       <View style={styles.buttonsContainer}>
         <Button style={styles.button} mode="flat" onPress={handleCancel}>
           Cancel

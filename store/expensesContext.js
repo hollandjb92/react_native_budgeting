@@ -12,13 +12,13 @@ const DUMMY_EXPENSES = [
     id: "e1",
     description: "Amazon.com",
     amount: 24.99,
-    date: new Date("2023-02-26"),
+    date: new Date("2023-02-28"),
   },
   {
     id: "e2",
     description: "Alamo Drafthouse",
     amount: 39.87,
-    date: new Date("2023-02-25"),
+    date: new Date("2023-02-27"),
   },
   {
     id: "e3",
