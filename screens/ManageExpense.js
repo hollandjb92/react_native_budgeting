@@ -4,6 +4,7 @@ import IconButton from "../components/IconButton";
 import { GlobalStyles } from "./../styles";
 import { ExpensesContext } from "./../store/expensesContext";
 import ExpenseForm from "../components/ExpenseForm";
+import { postExpense } from "../utils/axios";
 
 const ManageExpenseScreen = ({ route, navigation }) => {
   const expenseIdToEdit = route.params?.expenseId;
@@ -34,6 +35,7 @@ const ManageExpenseScreen = ({ route, navigation }) => {
     if (isEditing) {
       updateExpense(expenseIdToEdit, expenseData);
     } else {
+      postExpense(expenseData);
       addExpense(expenseData);
     }
     navigation.goBack();
