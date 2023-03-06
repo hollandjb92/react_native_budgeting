@@ -1,12 +1,20 @@
-import { useContext, useLayoutEffect } from "react";
+import { useContext, useLayoutEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import IconButton from "../components/IconButton";
 import { GlobalStyles } from "./../styles";
 import { ExpensesContext } from "./../store/expensesContext";
 import ExpenseForm from "../components/ExpenseForm";
-import { postExpense } from "../utils/axios";
+import {
+  deleteExpenseReq,
+  postExpense,
+  updateExpenseReq,
+} from "../utils/axios";
+import LoadingSpinner from "../components/LoadingSpinner";
+import Error from "../components/Error";
 
 const ManageExpenseScreen = ({ route, navigation }) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState();
   const expenseIdToEdit = route.params?.expenseId;
   const isEditing = !!expenseIdToEdit;
   const { deleteExpense, addExpense, updateExpense, expenses } =
@@ -22,24 +30,47 @@ const ManageExpenseScreen = ({ route, navigation }) => {
     });
   }, [navigation, isEditing]);
 
-  const handleDelete = () => {
-    deleteExpense(expenseIdToEdit);
-    navigation.goBack();
+  const handleDelete = async () => {
+    setIsSubmitting(true);
+
+    try {
+      deleteExpense(expenseIdToEdit);
+      await deleteExpenseReq(expenseIdToEdit);
+      navigation.goBack();
+    } catch (error) {
+      setError("Failed to delete expense - please try again");
+      setIsSubmitting(false);
+    }
   };
 
   const handleCancel = () => {
     navigation.goBack();
   };
 
-  const handleConfirmation = (expenseData) => {
-    if (isEditing) {
-      updateExpense(expenseIdToEdit, expenseData);
-    } else {
-      postExpense(expenseData);
-      addExpense(expenseData);
+  const handleConfirmation = async (expenseData) => {
+    setIsSubmitting(true);
+    try {
+      if (isEditing) {
+        updateExpense(expenseIdToEdit, expenseData);
+        await updateExpenseReq(expenseIdToEdit, expenseData);
+      } else {
+        const id = await postExpense(expenseData);
+        addExpense({ ...expenseData, id });
+      }
+      navigation.goBack();
+    } catch (error) {
+      setError("Could not save expense - please try again");
+      setIsSubmitting(false);
     }
-    navigation.goBack();
   };
+
+  if (isSubmitting) {
+    return <LoadingSpinner />;
+  }
+
+  if (error && !isSubmitting) {
+    return <Error message={error} />;
+  }
 
   return (
     <View style={styles.container}>
